@@ -1,0 +1,57 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Project 1 - sample code</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script type="text/javascript" src="d3.js"></script>
+</head>
+<body>
+  <script type="text/javascript">
+    var dataset;
+
+    /*var rowConverter = function(d) {
+    return {
+      date: parseFloat(d.date),
+      time: parseFloat(d.time),
+      ticket_number: parseInt(d.ticket_number),
+      article: d.article,
+      Quantity: parseFloat(d.Quantity),
+      unit_price: parseFloat(d.unit_price)
+      };
+    } */
+
+    
+
+d3.text("bakery.csv", function(datasetText) {
+ 
+var parsedCSV = d3.csv.parseRows(datasetText);
+
+var sampleHTML = d3.select("#bogo_data_from_a_file")
+  .append("table")
+  .style("border-collapse", "collapse")
+  .style("border", "2px black solid")
+
+  .selectAll("tr")
+  .data(parsedCSV)
+  .enter().append("tr")
+
+  .selectAll("td")
+  .data(function(d){return d;})
+  .enter().append("td")
+  .style("border", "1px black solid")
+  .style("padding", "5px")
+  .on("mouseover", function(){d3.select(this).style("background-color", "cyan")})
+  .on("mouseout", function(){d3.select(this).style("background-color", "white")})
+  .text(function(d){return d;})
+  .style("font-size", "12px");
+
+  console.log(datasetText);
+});
+</script>  
+</body>
+
+
+</html>

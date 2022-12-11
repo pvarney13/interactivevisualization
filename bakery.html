@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Final Project</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="d3.js"></script>
+	<style>
+    	text { 
+			font-family: Arial; 
+			font-size: 15px;
+		}
+		.axis path, .axis line {
+			fill: none;
+			stroke: black;
+			shape-rendering: crispEdges;
+		}
+		.tick text {
+			fill: black;
+			font-size: 11px;
+		}
+
+		rect {
+			stroke: white;
+		}
+	</style>
+</head>
+<body>
+
+	<svg id="main" width="600" height="600">
+		<text id='label' x='20' y='20'>French Bakery Sales</text>
+		<g transform="translate(20,40)">
+		
+
+		</g>
+	</svg>
+
+	
+	<script>
+
+		var BAR_WIDTH = 10;
+		var MAX_BAR_HEIGHT = 100;
+
+		var bakerySales = [ ];
+
+		function drawBarChart() 
+		{
+			
+
+			var maxValue = d3.max(bakerySales);
+
+
+			var selection = d3.select('svg').select('g').selectAll('rect').data(bakerySales);
+
+			var rectangles = selection.enter().append('rect');
+			
+			rectangles.attr('width', BAR_WIDTH)
+			
+			rectangles.attr('x', function(d, i) {
+				return i * BAR_WIDTH;
+			})
+			
+			rectangles.attr('height', function(d) 
+			{
+				var n = d / maxValue;
+				return n * MAX_BAR_HEIGHT;
+			});
+
+			rectangles.attr('y', function(d) 
+			{
+				var n = 1 - (d / maxValue);
+				return n * MAX_BAR_HEIGHT;
+
+			});
+		}
+			
+
+		d3.csv("bakery.csv", function(data) {
+            console.log(data);
+
+            var record = data[0];
+
+			// loop through all years, from 1980 to 2012
+			for (var date="2021-01-01"; date<="2022-9-30"; date++) 
+			{
+				var value = record[date];	
+				bakerySales.push(+value);
+			}
+
+
+			drawBarChart();
+
+		});
+		
+	</script>
+</body>
+
+
+</html>
